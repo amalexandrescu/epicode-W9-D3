@@ -1,18 +1,10 @@
-import {
-  Container,
-  Row,
-  InputGroup,
-  Form,
-  FormGroup,
-  FormLabel,
-} from "react-bootstrap";
+import { Container, Row, InputGroup, Form, FormLabel } from "react-bootstrap";
 import SingleBook from "./SingleBook";
 import fantasy from "../books/fantasy.json";
 import history from "../books/history.json";
 import romance from "../books/romance.json";
 import horror from "../books/horror.json";
 import scifi from "../books/scifi.json";
-// import books from "../books";
 import { Component } from "react";
 
 // const BookList = () => {
