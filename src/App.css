@@ -73,3 +73,26 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.customBinIcon {
+  font-size: 10px;
+}
+
+.d-flex button {
+  padding-inline: 6px;
+  padding-block: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.border-not-rounded {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.border-rounded {
+  border-top-left-radius: 3px !important;
+  border-top-right-radius: 3px !important;
+  overflow: hidden;
+}

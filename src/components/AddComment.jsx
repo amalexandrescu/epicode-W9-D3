@@ -9,6 +9,7 @@ class AddComment extends Component {
       rate: "",
       elementId: this.props.id,
     },
+    writeYourCommentButtonClicked: false,
   };
 
   onChangeHandler = (value, fieldToSet) => {
@@ -36,7 +37,7 @@ class AddComment extends Component {
       );
 
       if (data.ok) {
-        alert("Your comment was sent!");
+        this.props.getSingleBookComments();
         this.setState({
           commentToAdd: {
             comment: "",
@@ -52,47 +53,77 @@ class AddComment extends Component {
 
   render() {
     return (
-      <Form.Group>
-        <Form.Label className="text-center w-100 bg-primary">
-          Your comment here
-        </Form.Label>
-        <InputGroup>
-          <Form.Control
-            placeholder="Type your comm. here"
-            as="textarea"
-            rows={2}
-            onChange={(e) => this.onChangeHandler(e.target.value, "comment")}
-          />
-        </InputGroup>
-        <InputGroup>
-          <Form.Control
-            as="select"
-            value={this.state.rate}
-            onChange={(e) => this.onChangeHandler(e.target.value, "rate")}
+      <Form.Group className="text-center">
+        {!this.state.writeYourCommentButtonClicked && (
+          <Button
+            type="button"
+            variant="outline-info"
+            className="my-2"
+            onClick={() =>
+              this.setState({ writeYourCommentButtonClicked: true })
+            }
           >
-            <option value="default">Your Rating</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </Form.Control>
-        </InputGroup>
-        <Button
-          type="button"
-          variant="outline-info"
-          onClick={async () => {
-            // this.setState({
-            //   commentToAdd: {
-            //     ...this.state.commentToAdd,
-            //     ["elementId"]: this.props.id,
-            //   },
-            // });
-            this.addSingleComment();
-          }}
-        >
-          Post comment
-        </Button>
+            Write comment
+          </Button>
+        )}
+
+        {this.state.writeYourCommentButtonClicked && (
+          <Button
+            type="button"
+            variant="outline-info"
+            className="my-2"
+            onClick={() =>
+              this.setState({ writeYourCommentButtonClicked: false })
+            }
+          >
+            Hide Section
+          </Button>
+        )}
+
+        {this.state.writeYourCommentButtonClicked && (
+          <div
+            className={`${
+              !this.state.writeYourCommentButtonClicked ? "d-none" : "d-block"
+            }`}
+          >
+            <InputGroup>
+              <Form.Control
+                placeholder="Type your comm. here"
+                as="textarea"
+                rows={2}
+                className="mb-2"
+                onChange={(e) =>
+                  this.onChangeHandler(e.target.value, "comment")
+                }
+              />
+            </InputGroup>
+            <InputGroup>
+              <Form.Control
+                as="select"
+                value={this.state.rate}
+                onChange={(e) => this.onChangeHandler(e.target.value, "rate")}
+              >
+                <option value="default">Your Rating</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </Form.Control>
+            </InputGroup>
+            <Button
+              type="button"
+              variant="outline-info"
+              className="mt-2"
+              onClick={async () => {
+                this.addSingleComment();
+                this.setState({ writeYourCommentButtonClicked: false });
+              }}
+            >
+              Post comment
+            </Button>
+          </div>
+        )}
       </Form.Group>
     );
   }

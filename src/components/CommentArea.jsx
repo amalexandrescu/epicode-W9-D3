@@ -1,11 +1,13 @@
 import { Component } from "react";
 import AddComment from "./AddComment";
 import CommentsList from "./CommentsList";
+import { Spinner } from "react-bootstrap";
 
 class CommentArea extends Component {
   state = {
     bookId: this.props.id,
     singleBookCommets: [],
+    isLoading: true,
   };
 
   getSingleBookComments = async () => {
@@ -24,12 +26,14 @@ class CommentArea extends Component {
       if (response.ok) {
         let result = await response.json();
         console.log(result);
-        this.setState({ singleBookCommets: result });
+        this.setState({ singleBookCommets: result, isLoading: false });
       } else {
         console.log("Error while fetching");
+        this.setState({ isLoading: true });
       }
     } catch (error) {
       console.log(error);
+      this.setState({ isLoading: true });
     }
   };
 
@@ -39,15 +43,24 @@ class CommentArea extends Component {
 
   render() {
     return (
-      <div>
-        <h6 className="my-2 bg-primary text-center text-light">
+      <div className="mt-2 border-rounded">
+        <h6 className="mb-0 bg-primary text-center text-light">
           Comments area
         </h6>
+        {this.state.isLoading && (
+          <div className="d-flex justify-content-center my-2">
+            <Spinner animation="border" role="status"></Spinner>
+          </div>
+        )}
         <CommentsList
+          getSingleBookComments={this.getSingleBookComments}
           commentsArray={this.state.singleBookCommets}
           id={this.state.bookId}
         />
-        <AddComment id={this.state.bookId} />
+        <AddComment
+          id={this.state.bookId}
+          getSingleBookComments={this.getSingleBookComments}
+        />
       </div>
     );
   }

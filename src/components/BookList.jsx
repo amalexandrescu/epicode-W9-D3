@@ -29,6 +29,7 @@ class BookList extends Component {
     horror: horror,
     scifi: scifi,
     search: "",
+    isLoading: true,
   };
 
   filterBookList = (value) => {
@@ -74,7 +75,9 @@ class BookList extends Component {
             />
           </InputGroup>
         </Row>
-        <h3> {this.state.genre} Books</h3>
+        <Row>
+          <h3> {this.state.genre} Books</h3>
+        </Row>
         <Row>
           {this.state[this.state.genre] &&
             this.state[this.state.genre]

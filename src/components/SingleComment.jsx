@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { ListGroup, Button } from "react-bootstrap";
+import * as Icon from "react-bootstrap-icons";
 
 //this class has as props currentComment from CommentsLists.jsx
 //in this prop we have a single comment which we have to render inside our div
@@ -8,11 +9,11 @@ class SingleComment extends Component {
     hovered: false,
   };
 
-  // showRemoveButton = () => {
-  //   this.setState({
-  //     hovered: true,
-  //   });
-  // };
+  showRemoveButton = () => {
+    this.setState({
+      hovered: true,
+    });
+  };
 
   removeComment = async () => {
     let data = await fetch(
@@ -28,7 +29,7 @@ class SingleComment extends Component {
 
     try {
       if (data.ok) {
-        alert("A comment was removed!");
+        this.props.getSingleBookComments();
       } else {
         alert("An error occured and the comment was not removed");
       }
@@ -37,33 +38,28 @@ class SingleComment extends Component {
     }
   };
 
-  // removeButtonClicked = async () => {
-  //   await this.removeComment();
-  // };
-
-  // componentDidMount() {
-  //   this.removeButtonClicked();
-  // }
-
   render() {
     return (
       <ListGroup.Item
-        // onMouseOver={this.showRemoveButton()}
-        className="bg-success write-just-on-one-line"
+        onMouseOver={this.showRemoveButton}
+        onMouseLeave={() => this.setState({ hovered: false })}
+        className="bg-success write-just-on-one-line d-flex justify-content-between"
       >
-        {/* ${this.state.hovered ? "d-block" : "d-none"}` */}
-        {/* {`${this.state.selected ? "shadow-dark" : ""}`} */}
-        <Button
-          variant="outline-danger"
-          className="mr-2"
-          // onClick={this.removeButtonClicked()}
-        >
-          bin
-          {/* <i className="bi bi-trash3-fill"></i> */}
-          {/* <Trash3-fill></Trash3-fill> */}
-          {/* <Icon.Trash3-fill /> */}
-        </Button>
-        {this.props.currentComment.comment}
+        {this.state.hovered && (
+          <div className="w-75 write-just-on-one-line text-left">
+            {this.props.currentComment.comment}
+          </div>
+        )}
+        {!this.state.hovered && (
+          <div className="w-100 write-just-on-one-line text-left">
+            {this.props.currentComment.comment}
+          </div>
+        )}
+        {this.state.hovered && (
+          <Button variant="outline-danger" onClick={this.removeComment}>
+            <Icon.Trash3Fill className="customBinIcon" />
+          </Button>
+        )}
       </ListGroup.Item>
     );
   }
